@@ -1,2 +1,1 @@
-# WebSocket
-Trabajo websocket sistemas distribuidos
+#Web Socket

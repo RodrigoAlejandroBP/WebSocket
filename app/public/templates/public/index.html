@@ -1,0 +1,48 @@
+{% extends "base_template.html" %}
+{% block title %}Tutorial Flask: Miniblog{% endblock %}
+{% block content %}
+    <div class="col-12 pb-3 text-muted">
+        Página {{ page }}/{{ posts.pages }}
+    </div>
+    {% for post in posts.items %}
+    
+    <div class="card">
+        <div class="card-body">
+            <div class= "col-12">
+                    <h2 style="font-family:Comic Sans;">{{ post.title }}</h2>
+                    <h6 class="text-muted" ><img src="{{ url_for('static',filename='img/user.png')}}" style="width:32px;height:32px;"> Publicado por {{ autores[loop.index-1] }}</h6>
+            </div>
+            <div class= "col-12" style="text-indent:5px;" >
+                <p style="font-size:15px; " >{{ post.content }}</p><a href="/p/{{ post.title_slug }}" class="btn btn-primary">↳ Post Completo </a>
+            </div>
+
+        </div>
+    </div>
+    <br>
+    {% endfor %}
+
+
+    <div class="row">
+        <div class="col-12 pt-4" align="center">
+            {% if posts.has_prev %}
+            <a class="alert alert-primary" style="letter-spacing: -2px;" href="{{ url_for('public.index', page=1) }}">&#60;&#60;</a>
+            {% endif %}
+
+            {% for num_pag in posts.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=3) %}
+            {% if num_pag %}
+                {% if page == num_pag %}
+                <a class="alert alert-success" style="min-width: 43px;" href="{{ url_for('public.index', page=num_pag) }}">{{ num_pag }}</a>
+                {% else %}
+                <a class="alert alert-primary" style="min-width: 43px;" href="{{ url_for('public.index', page=num_pag) }}">{{ num_pag }}</a>
+                {% endif %}
+            {% else %}
+                <a class="alert alert-secondary">&middot;&middot;&middot;</a>
+            {% endif %}
+            {% endfor %}
+
+            {% if posts.has_next %}
+            <a class="alert alert-primary" style="letter-spacing: -2px;" href="{{ url_for('public.index', page=posts.pages) }}">&#62;&#62;</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

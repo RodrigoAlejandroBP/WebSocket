@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*$py.class
+id_rsa
+id_rsa.pub
+software.zip
+env2/
+env2.old/
+.vscode/
+key
+key.pub
+env
+Readme
+
+Llaves y config/
+
+config.txt
