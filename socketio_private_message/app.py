@@ -1,16 +1,34 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,redirect, url_for, session,flash
 from flask_socketio import SocketIO, send, emit
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, PasswordField, BooleanField
+from wtforms.validators import DataRequired, Email, Length
+import json
+
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secretkey'
+app.config['SECRET_KEY'] = 'colaslowpoke'
 app.config['DEBUG'] = True
-socketio = SocketIO(app)
+
+
+#cors , para que cualquiera pueda realizar la conexion
+socketio = SocketIO(app,cors_allowed_origins="*")
+
 
 users = {}
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+
+
+
+
+#Con render template, mostramos el index html
+#ruta inicial
+@app.route('/', methods=['GET', 'POST'])
+def salachat():
+    error = None
+
+
+    return render_template('index.html',error=error)
 
 @app.route('/orginate')
 def orginate():

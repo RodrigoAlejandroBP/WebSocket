@@ -86,3 +86,7 @@ img.hola {
   width: 50%;
   opacity: 0.8;
 }
+
+.Aparecer{
+    display:hidden!;
+}

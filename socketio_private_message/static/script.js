@@ -1,8 +1,21 @@
 $(document).ready(function() {
 
+    function myFunc(vars) {
+        return vars
+    }
+    
+    /*
+    Conectarse al puerto y crear la coneccion con socket.
+    */
     var socket = io.connect('http://127.0.0.1:5000');
+ 
+    socket.on('connect', function(sock) 
+        {
+        console.log('Connected!');
+        });
 
     var socket_messages = io('http://127.0.0.1:5000/messages')
+
 
     $('#send').on('click', function() {
         var message = $('#message').val();
@@ -21,13 +34,15 @@ $(document).ready(function() {
 
     var private_socket = io('http://127.0.0.1:5000/private')
 
-    $('#send_username').on('click', function() {
-        private_socket.emit('username', $('#username').val());
-    });
+
+     private_socket.emit({{data}});
+   
+
 
     $('#send_private_message').on('click', function() {
         var recipient = $('#send_to_username').val();
         var message_to_send = $('#private_message').val();
+
 
         private_socket.emit('private_message', {'username' : recipient, 'message' : message_to_send});
     });
@@ -53,7 +68,8 @@ $(document).ready(function() {
         });
         
     });
-
+ <script src="{{ url_for('static', filename='script.js') }}"></script>-->
     */
 
+   
 });
