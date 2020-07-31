@@ -87,6 +87,17 @@ img.hola {
   opacity: 0.8;
 }
 
-.Aparecer{
-    display:hidden!;
+#a{
+    display: none;
+    visibility: hidden;
 }
+
+div.msg_bbl {
+background-color: #ddd;
+padding: 5px 10px;
+border-radius: 10px;
+color: #555;
+margin-bottom: 5px;
+}
+
+/*  AVER Q PASA */
