@@ -3,6 +3,8 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
+    <link rel="icon" href="#">
+
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
@@ -39,7 +41,6 @@
     <script>
                 
         $(document).ready(function() {
-
             $("#Aparecer").hide();
         });
 </script>
@@ -98,14 +99,8 @@
             </div>
 
             <div class="card-body">
-              {% if error %}
-              <div
-                class="alert alert-danger"
-                style="color: red; font-size: 14px;"
-              >
-                {{ error }}
-              </div>
-              {% endif %}
+            
+        
               <div class="col-md-12">
                 <div class="thumbnail">
                   <img
@@ -126,7 +121,7 @@
                   class="form-control"
                   placeholder="Ejemplo: Javiwi"
                 />
-
+                <div class="error" > </div>
                 <br />
                 <button
                   id="send_username"
@@ -135,6 +130,7 @@
                 >
                   Entrar!
                 </button>
+            
               </div>
             </div>
           </div>
@@ -142,9 +138,9 @@
       </div>
     </div>
     <!-- Comienza la parte del chat-->
-    <div class="container" id ="Aparecer">
+    <div class="container horizontal-scrollable" id ="Aparecer">
       <div class="row">
-        <div class="col-sm">
+        <div class="col-sm" >
             <b
               >Envia tus mensajes aqui abajo!!
               <span class="glyphicon glyphicon-arrow-down"></span
@@ -191,26 +187,51 @@
               Send
             </button>
           </div>
-        
+    
         <!--Mensajes-->
-        <div class="col-md">
-            <div class="no_message">
-              <h1 style="color: #ccc;" id='Mensajes'>No hay mensajes todavia</h1>
-              <div class="message_holder"></div>
-            </div>
+        <div class="col-sm" style="background-color:ghostwhite; height:600px;" id="chat">
+             
+              <div class="row">
+                <div class ="col-sm">
+             
+                  <div class="message_holder" style="height:595px; overflow:scroll;overflow-y:scroll;overflow-x:hidden; ">
+                    <h1 style="color: #ccc; " id='Mensajes'>No hay mensajes todavia</h1>
+                  </div>
+                  
+                </div>
+         
+                
+              </div>
+          
+              
+        
         </div>
 
 
-        <div class="col-">
-          aaaa
+        <div class="col-sm" id=emi tyle="background-color:ghostwhite; height:600px;">
+         
+          <div class="row" >
+            <div class ="col-sm" >
+             
+              <div class="emisores"  style="height:595px; overflow:scroll;overflow-y:scroll;overflow-x:hidden;" >
+                <h4>Lista de usuarios que te contactaron,presione en uno de ellos para chatear</h4>
+                <br><br><br>
+                
+              </div>
+              
+            </div>
+          </div>
         </div>
      
   
       </div>
     </div>
     <div>
-      <!--<div id="a" >-->
+      <!--<div id="a"  style="height:595px; overflow:scroll;overflow-y:scroll;overflow-x:hidden; >-->
+<script>
 
+  
+</script>
       <br />
       <br />
       <br />

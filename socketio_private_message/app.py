@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request,redirect, url_for
-from flask_socketio import SocketIO, send, emit
+from flask_socketio import SocketIO, send, emit,join_room, leave_room
+
 import json
 
 
@@ -13,8 +14,8 @@ socketio = SocketIO(app,cors_allowed_origins="*")
 
 
 users = {}
-
-historialmensajes=[]
+alias=[]
+usuariosconectados=[]
 
 
 
@@ -33,33 +34,41 @@ def receive_message_from_user(message):
 
 @socketio.on('username', namespace='/private')
 def receive_username(username):
+    print(alias)
+    print(username)
+    message={'error':"error"}
+    alias.append(username)
     users[username] = request.sid
+    print(alias)
+    emit('alias',username)
     #users.append({username : request.sid})
     #print(users)
-    print(users)
-    emit('alias',username)
+ 
+
+def mensajerecibido():
+  print( 'Mensaje recibido!!!' )
+
+
+
+
 
 @socketio.on('private_message', namespace='/private')
 def private_message(payload):
+
+
     recipient_session_id = users[payload['username']]
-    message = payload['message']
+    print(recipient_session_id)
+    print(payload)
+    message = {'mensaje':payload['message'],'emisor':payload['emisor'],'hora':payload['hora']}
+    print(message)
+   # join_room(payload['username'])
+   # join_room(users[payload['emisor']])
 
     #Agrego a los dos que conversaron  
-    historialmensajes.append()
-    emit('new_private_message', message, room=recipient_session_id)
+    usuariosconectados.append([ users[payload['username']],payload['emisor'] ])
+    emit('new_private_message', message, room=recipient_session_id,callback=mensajerecibido())
 
-'''
-@socketio.on('message')
-def receive_message(message):
-    print('########: {}'.format(message))
-    send('This is a message from Flask.')
 
-@socketio.on('custom event')
-def receive_custom_event(message):
-    print('THE CUSTOM MESSAGE IS: {}'.format(message['name']))
-    emit('from flask', {'extension' : 'Flask-SocketIO'}, json=True)
-
-'''
 
 if __name__ == '__main__':
     socketio.run(app)

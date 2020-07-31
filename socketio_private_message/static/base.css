@@ -63,6 +63,7 @@ button{
     margin: 5px 0 25px;
 }
 
+
 .forgot{
     padding: 5px 0;
 }
@@ -98,6 +99,29 @@ padding: 5px 10px;
 border-radius: 10px;
 color: #555;
 margin-bottom: 5px;
+
+
 }
 
-/*  AVER Q PASA */
+p.parrafodentro{
+   max-width: 200px; 
+   word-wrap:break-word;
+   overflow: hidden;
+   text-overflow: ellipsis;
+
+
+}
+#emi {
+    border: 2px solid #000000;
+    border-radius: 9px;
+
+    padding-left:15px;
+    margin-left: 10px;
+    }
+
+#chat{
+    border: 2px solid #28a745;
+     border-radius: 10px;
+     padding-right:15px;
+     padding-left:15px;
+    }
