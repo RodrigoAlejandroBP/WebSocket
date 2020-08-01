@@ -25,20 +25,25 @@ usuariosconectados=[]
 def salachat():
     error = None
     return render_template('index.html',error=error)
-#
-#@socketio.on('message from user', namespace='/messages')
-#def receive_message_from_user(message):
-#    print('USER MESSAGE: {}'.format(message))
-#    emit('from flask', message.upper(), broadcast=True)
+
+@socketio.on('message from user', namespace='/messages')
+def receive_message_from_user(message):
+    print('USER MESSAGE: {}'.format(message))
+    emit('from flask', message.upper(), broadcast=True)
 
 
 #Acepto el alias
 @socketio.on('username', namespace='/private')
 def receive_username(username):
-    message={'error':"error"}
-    alias.append(username)
-    users[username] = request.sid
-    emit('alias',username)
+
+    if(username in alias):
+        message={'error':"error"}
+    else:
+        alias.append(username)
+        users[username] = request.sid
+        message={'error':"correcto"}
+
+    emit('deflask',message)
  
  
 
