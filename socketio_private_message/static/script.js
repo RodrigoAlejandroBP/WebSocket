@@ -4,15 +4,16 @@ $(document).ready(function() {
     var b = 0;
     var a=[]; 
     var c=[];
+
     var socket = io.connect('http://127.0.0.1:5000');
  
-    socket.on('connect', function(sock) 
+    socket.on('connect', function() 
         {
-        console.log('Nos conectamos a http://127.0.0.1:5000!');
+        console.log('Conectado!');
         });
 
 
-
+        //Pendiente esto es para aparecer y desaparecer luego de hacer el click en enviar el usuario
     $( "#send_username" ).click(function() {
         if(c.indexOf($('#username').val())==-1){
             c.push($('#username').val());
@@ -21,10 +22,6 @@ $(document).ready(function() {
             $("#Desaparecer").hide(1111);
             $("#Aparecer").show('slow');
         }
-        else{
-            console.log("taocupao");
-        }
-
         
     });
     /*
@@ -42,31 +39,27 @@ $(document).ready(function() {
     });
 
 
-
+    //Cuando ingresa el alias 
     $('#send_username').on('click', function() {
-        
         private_socket.emit('username', $('#username').val());
-
     });
     
-    //Iniciar socket para conversaciones privadas
+    /*
     socket_messages.on('deflask', function(msg) {
         alert(msg);
         $('#username').val('') ;
         document.getElementById('Usuario').innerHTML='';
         $( 'div.error' ).append('<h1 class="alert alert-danger" style="color: red; font-size: 14px;" > '+msg.error+'</h1> <br>' );
         $("#Aparecer").hide('fast');
-        $("#Desaparecer").show('fast');
-    
-            
-        
+        $("#Desaparecer").show('fast');   
     });
+*/
 
+    //Iniciar socket para conversaciones privadas
     var private_socket = io('http://127.0.0.1:5000/private')
 
     //Cuando se envia
     $('#send_private_message').on('click', function() {
-
         var emisor = $('#username').val();
         var recipient = $('#send_to_username').val();
         var message_to_send = $('#private_message').val();
@@ -91,19 +84,20 @@ $(document).ready(function() {
     
 //Cuando llega
     private_socket.on('new_private_message', function(msg) {
-        if(a.indexOf(msg.emisor)==-1){
+        if(a.indexOf(msg.emisor)==-1){ //si el  emisor del mensaje no a mandado un mensaje previamente
             
            
             $( '#Mensajes' ).remove();
             $( 'div.message_holder' ).append( '<div class="msg_bbl" style="margin-top: 15px; float: right; margin-left: 250px;">'+ '<p class = "parrafodentro" >'+ msg.mensaje+ '</p>'+ '<b style="color: #000; font-size:10px; float: left;">'+ msg.hora+ '</b>'   + '</div>');
             a.push(msg.emisor);
-            $( 'div.emisores' ).append( '<button class="btn btn-outline-success btn-block" id="'+msg.emisor+'">'+"hola soy"+ msg.emisor +'</button>');
+            $( 'div.emisores' ).append( '<button class="btn btn-outline-success btn-block" id="'+msg.emisor+'">'+"Alias :  "+ msg.emisor +'</button>');
         
      
             b = b+1; 
         }
         else{
             $( '#Mensajes' ).remove();
+            //Si es que ya habia hablado contigo sigue agregando los mensajes
             $( 'div.message_holder' ).append( '<div class="msg_bbl" style="margin-top: 15px; float: right; margin-left: 250px;">'+ '<p class = "parrafodentro" >'+ msg.mensaje+ '</p>'+ '<b style="color: #000; font-size:10px; float: left;">'+ msg.hora+ '</b>'   + '</div>');
         }
         

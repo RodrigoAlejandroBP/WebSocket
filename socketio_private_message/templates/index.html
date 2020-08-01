@@ -25,6 +25,7 @@
       integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
       crossorigin="anonymous"
     ></script>
+
     <script
       src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
@@ -32,14 +33,16 @@
     ></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+
     <link
       rel="stylesheet"
       type="text/css"
       href="{{ url_for('static', filename='base.css') }}"
     />
-    <script>
-                
+    
+    <script>     
         $(document).ready(function() {
             $("#Aparecer").hide();
         });
@@ -189,9 +192,9 @@
           </div>
     
         <!--Mensajes-->
-        <div class="col-sm" style="background-color:ghostwhite; height:600px;" id="chat">
+        <div class="col-sm" style="background-color:ghostwhite; height:600px; width:520px;" id="chat">
              
-              <div class="row">
+              <div class="row" style=" width:520px;">
                 <div class ="col-sm">
              
                   <div class="message_holder" style="height:595px; overflow:scroll;overflow-y:scroll;overflow-x:hidden; ">
@@ -211,10 +214,10 @@
         <div class="col-sm" id=emi tyle="background-color:ghostwhite; height:600px;">
          
           <div class="row" >
-            <div class ="col-sm" >
+            <div class ="col-sm" style="padding:20px;" >
              
               <div class="emisores"  style="height:595px; overflow:scroll;overflow-y:scroll;overflow-x:hidden;" >
-                <h4>Lista de usuarios que te contactaron,presione en uno de ellos para chatear</h4>
+                <h4 style="text-align:center">Usuarios que te contactaron o contactaste,presione en uno de ellos para chatear</h4>
                 <br><br><br>
                 
               </div>
