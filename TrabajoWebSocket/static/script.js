@@ -4,7 +4,7 @@ $(document).ready(function() {
     var b = 0;
     var contador = 0;
     var a=[]; 
-    var c=[];
+    var yo;
     var listadeusuarios=[];
 
     
@@ -16,7 +16,7 @@ $(document).ready(function() {
     Conectarse al puerto y crear la coneccion con socket.
     */
    
-   
+    //Esta conexion es para el loby
    var socket_messages = io('http://127.0.0.1:5000/messages')
    
    
@@ -28,56 +28,38 @@ $(document).ready(function() {
     });
     
     
-
+    /* Para el lobby
    $('#send').on('click', function() {
        var message = $('#message').val();
+   
        socket_messages.emit('message from user', message);
        
-    });
+    }); */
     
-    //Con esta funcion comprobamos si el alias esta ocupado en en websocket deflask , else
-
   
+
+    //Aqui registro el alias
   
-    
-
-    /*Cuando ingresa el alias comprobar que no esta ocupado
-    $('#send_username').on('click', function() {
-        var h= c.indexOf($('#username').val());
-
-        console.log(h);
-        if(c.indexOf($('#username').val())==-1){
-            c.push($('#username').val());
-            var hola = $('#username').val();
-            document.getElementById('Usuario').innerHTML='Bienvenido '+hola+'!!';
-            $("#Desaparecer").hide(1111);
-            $("#Aparecer").show('slow');
-            private_socket.emit('username', $('#username').val());
-        }
-        else{
-            if(contador ==0){
-                contador = contador +1 ;
-                $('#username').val('') ;
-                $( 'div.error' ).append('<h1 class="alert alert-danger" style="color: red; font-size: 14px;" > error!</h1> <br>' );    
-            }
-            
-        }
-    });
-    */
-
+    var contador=0;
    $('#send_username').on('click', function() {
-
+            //lo emito a username de flask
             private_socket.emit('username', $('#username').val());
 
-
+            yo = $('#username').val();
+              //Con esta funcion comprobamos si el alias esta ocupado en en websocket deflask , else 
             private_socket.on('deflask', function(msg) {
-                console.log(msg.error);
-                
+              
+                    //si da error pone una alerta
                 if(msg.error=='error'){
                     $('#username').val('') ;
                     document.getElementById('Usuario').innerHTML='';
-                    $( 'div.error' ).append('<h1 class="alert alert-danger" style="color: red; font-size: 14px;" > '+msg.error+'</h1> <br>' );
+                    if(contador==0){
+                        $( 'div.error' ).append('<br><br><h1 class="alert alert-danger" style="color: red; font-size: 14px;" > Este alias ya existe.</h1> <br>' );
+                        contador= contador+1;
+                    }
+                   
                 }
+                //Te recibe y abre el chat
                 else{
                         //Pendiente esto es para aparecer y desaparecer luego de hacer el click en enviar el usuario
                     var hola = $('#username').val();
@@ -95,102 +77,122 @@ $(document).ready(function() {
 
 
     });
+
+    /*Esto es del loby tambien
     socket_messages.on('from flask', function(msg) {
         alert(msg)
     });
-    
-    
-    /*
-    private_socket.on('deflask', function(msg) {
-        console.log(msg.error);
-        
-        if(msg.error=='error'){
-            $('#username').val('') ;
-            document.getElementById('Usuario').innerHTML='';
-            $( 'div.error' ).append('<h1 class="alert alert-danger" style="color: red; font-size: 14px;" > '+msg.error+'</h1> <br>' );
-            $("#Aparecer").hide('fast');
-            $("#Desaparecer").show('fast');   
-        }
-        else{
-                //Pendiente esto es para aparecer y desaparecer luego de hacer el click en enviar el usuario
-            funcioncomprobacion();
-   
-            console.log("todo correcto");
-        }
-
-    });
-
     */
-   ////private_socket.on('deflask', function(msg) {
-   /// console.log(msg.error);
-   /// });
 
-    //Cuando se envia
+    //Cuando un usuario envia el mensaje al otro
     $('#send_private_message').on('click', function() {
+
+        //necesitamos saber quien lo mando,aquienva y que mensaje!.
         var emisor = $('#username').val();
         var recipient = $('#send_to_username').val();
         var message_to_send = $('#private_message').val();
 
+        //Que no sea vacio
         if($('#private_message').val!=''){
             $('#private_message').val('');
         }
-        
+
+        //La hora 
         var horadeenvio=new Date();
         var hora=horadeenvio.getHours()+':'+horadeenvio.getMinutes();
+        //limpiamos el mensaje
         $( '#Mensajes' ).remove();
-        if(listadeusuarios.indexOf(emisor)==-1){
-            /*AQUI */
-            console.log("PASEPORACA");
+
+       // console.log("esta es lista de usuarios de cuando emite")
+      //  console.log(listadeusuarios);
+        //comprobamos que no sea esta enviando mensajes a si mismo
+        if(emisor !=recipient ){
+
+            //se comprueba si los usuarios hablan por primera vez
+            // para crear una clase  y su" propio entorno de chat"
+            if(listadeusuarios.indexOf(recipient)==-1){
+              
+                //creo su propio holder con la clase del alias del emisor y a esa clase despues puedo hacerla desaparecer o aparecer
+                $( 'div.message_holder' ).append( '<div class="'+recipient+emisor+ '"  style=""></div>');
+                $( 'div'+'.'+recipient+emisor).append(' <div class="msg_bbl" style="margin-top: 15px; float: left; margin-right: 250px; ">'+'<p class = "parrafodentro" >'+message_to_send+'</p>'+ '<b style=" color: #000;font-size:10px; float: right;">   ' + hora+'</b></div>'+'<br>' );
+                // $( 'div'+'.'+msg.emisor+' ).append( <div class="msg_bbl" style="margin-top: 15px; float: left; margin-right: 250px; "><p class = "parrafodentro" >'+message_to_send+'</p>'+ '<b style=" color: #000;font-size:10px; float: right;">   ' + hora+'</b></div>'+'<br>' );
+                $( 'div.emisores' ).append( '<button class="btn btn-outline-success btn-block" id="'+recipient+'b" onclick=$("div.'+emisor+recipient+'").toggle();$("div.'+recipient+emisor+'").toggle();changeButtonColor("'+emisor+'b")   >'+ "Alias :  "+ recipient +'</button>');
+                listadeusuarios.push(recipient);
+            }
+            //Si ya hablaron antes solo agrega mensajes 
+            else{
+                $( 'div'+'.'+recipient+emisor ).append(' <div class="msg_bbl"  style="margin-top: 15px; float: left; margin-right: 250px; ">'+'<p class = "parrafodentro" >'+message_to_send+'</p>'+ '<b style=" color: #000;font-size:10px; float: right;">   ' + hora+'</b></div>'+'<br>' );
             
-            //creo su propio holder con la clase del alias del emisor y a esa clase despues puedo hacerla desaparecer o aparecer
-            $( 'div.message_holder' ).append( '<div class="'+emisor+recipient+ '"  style=""></div>');
-            $( 'div'+'.'+emisor+recipient ).append(' <div class="msg_bbl" style="margin-top: 15px; float: left; margin-right: 250px; ">'+'<p class = "parrafodentro" >'+message_to_send+'</p>'+ '<b style=" color: #000;font-size:10px; float: right;">   ' + hora+'</b></div>'+'<br>' );
-            // $( 'div'+'.'+msg.emisor+' ).append( <div class="msg_bbl" style="margin-top: 15px; float: left; margin-right: 250px; "><p class = "parrafodentro" >'+message_to_send+'</p>'+ '<b style=" color: #000;font-size:10px; float: right;">   ' + hora+'</b></div>'+'<br>' );
-            $( 'div.emisores' ).append( '<button class="btn btn-outline-success btn-block" id="'+emisor+'b" onclick=$("div.'+emisor+recipient+'").toggle();$("div.'+recipient+emisor+'").toggle(); >'+ "Alias :  "+ recipient +'</button>');
-            listadeusuarios.push(emisor);
+            }
+
+            //emite el mensaje privado a la otra persona para que se muestre en su pantalla, esto va a flask 
+            private_socket.emit('private_message', {'username' : recipient, 'message' : message_to_send,'emisor':emisor,'hora':hora});
         }
         else{
-            $('#'+emisor+'b').hide();
-            console.log("QPASOOOOOOOOOOOOO");
-            $( 'div'+'.'+emisor+recipient ).append(' <div class="msg_bbl"  style="margin-top: 15px; float: left; margin-right: 250px; ">'+'<p class = "parrafodentro" >'+message_to_send+'</p>'+ '<b style=" color: #000;font-size:10px; float: right;">   ' + hora+'</b></div>'+'<br>' );
+            alert("No puedes hablar contigo mismo");
         
         }
       
-        console.log(message_to_send);
-        
-        private_socket.emit('private_message', {'username' : recipient, 'message' : message_to_send,'emisor':emisor,'hora':hora});
+
+       
     });
     
-    
-    
+ 
+
+    //si termina la conexion con la otra persona no pueden hablar, se borra el entorno creado para sus mensajes
+    $('#terminarconversacion').on('click', function() {
+        var alias = $('#terminarconversacion1').val();
+        $('#'+alias+'b').remove();
+        $('div.'+alias+yo).remove();
+        //lo emite a flask para que la otra persona lo reciba en el private socket que esta justo aca abajo
+        private_socket.emit('borrarrastro',{'alias':alias,'yo':yo} );
+        //borrar todo lo que tenga que ver con ese alias y dsps con emit avisarle al otro para que no pueda mandar mas mensajes
+    });
+    //recibe el mensaje de que terminaron su conexion asi que se borra con .remove
+    private_socket.on('borrarrastro2', function(msg) {
+        console.log("AQUIIIIIII");
+        console.log('#'+msg.yo+'b' );
+        $('#'+msg.yo+'b').hide();
+        $('div.'+msg.yo+msg.alias).hide();
+        //Tengo quqe agregar que terminaron su conexion y no puede enviarle mas mensajes
+
+        //$( 'div'+'.'+msg.emisor+msg.receptor ).append( '<div class="msg_bbl" style="margin-top: 15px; float: right; margin-left: 250px;">'+ '<p class = "parrafodentro" >'+ msg.mensaje+ '</p>'+ '<b style="color: #000; font-size:10px; float: left;">'+ msg.hora+ '</b>'       + '</div>');
+            
+    });
+
+
     
     //Mensajes privados
 
 
     
-//Cuando llega
+//Cuando recibe el mensaje
     private_socket.on('new_private_message', function(msg) {
-        if(a.indexOf(msg.emisor)==-1){ //si el  emisor del mensaje no a mandado un mensaje previamente
-            
-            
-            $( '#Mensajes' ).remove();
-            console.log("BUENA");
-           // $( 'div.message_holder' ).append( '<div class="msg_bbl"  style="margin-top: 15px; float: right; margin-left: 250px;">'+ '<p class = "parrafodentro" >'+ msg.mensaje+ '</p>'+ '<b style="color: #000; font-size:10px; float: left;">'+ msg.hora+ '</b>'   + '</div>');
-            $( 'div.message_holder' ).append( '<div class="'+msg.emisor+msg.receptor+ '"  style=""></div>');
-            $( 'div'+'.'+msg.emisor+msg.receptor ).append( '<div class="msg_bbl" style="margin-top: 15px; float: right; margin-left: 250px;">'+ '<p class = "parrafodentro" >'+ msg.mensaje+ '</p>'+ '<b style="color: #000; font-size:10px; float: left;">'+ msg.hora+ '</b>'   + '</div>');
-            a.push(msg.emisor);
-            $( 'div.emisores' ).append( '<button class="btn btn-outline-success btn-block" id="'+msg.emisor+'b" onclick=$("div.'+msg.receptor+msg.emisor+'").toggle();$("div.'+msg.emisor+msg.receptor+'").toggle();>'+ "Alias :  "+ msg.emisor +'</button>');
-            $('#'+msg.receptor+'b').hide();
+   
+        //Comprobamos si habiamos hablado antes para crear el entorno donde chatearan, esto en la pestaña del receptor
+        if(msg.hablando=="no"){       
+                //como es primera vez que hablan se crea el entorno y sus botones
+                $( '#Mensajes' ).remove();
 
-            b = b+1; 
+               // $( 'div.message_holder' ).append( '<div class="msg_bbl"  style="margin-top: 15px; float: right; margin-left: 250px;">'+ '<p class = "parrafodentro" >'+ msg.mensaje+ '</p>'+ '<b style="color: #000; font-size:10px; float: left;">'+ msg.hora+ '</b>'   + '</div>');
+                $( 'div.message_holder' ).append( '<div class="'+msg.emisor+msg.receptor+ '"  style=""></div>');
+                $( 'div'+'.'+msg.emisor+msg.receptor ).append( '<div class="msg_bbl" style="margin-top: 15px; float: right; margin-left: 250px;">'+ '<p class = "parrafodentro" >'+ msg.mensaje+ '</p>'+ '<b style="color: #000; font-size:10px; float: left;">'+ msg.hora+ '</b>'   + '</div>');
+                a.push(msg.emisor);
+                $( 'div.emisores' ).append( '<button class="btn btn-outline-success btn-block" id="'+msg.emisor+'b" onclick=$("div.'+msg.receptor+msg.emisor+'").toggle();$("div.'+msg.emisor+msg.receptor+'").toggle(); changeButtonColor('+"+msg.emisor+'b"+') >'+ "Alias :  "+ msg.emisor +'</button>');
+               
+    
+                b = b+1; 
+                listadeusuarios.push(msg.emisor);
+            
+
         }
         else{
-            console.log("PUTAOH");
+            //si ya habian hablado antes solo lo añade a ese entorno de chat
             $( '#Mensajes' ).remove();
-
-            //Si es que ya habia hablado contigo sigue agregando los mensajes
             $( 'div'+'.'+msg.emisor+msg.receptor ).append( '<div class="msg_bbl" style="margin-top: 15px; float: right; margin-left: 250px;">'+ '<p class = "parrafodentro" >'+ msg.mensaje+ '</p>'+ '<b style="color: #000; font-size:10px; float: left;">'+ msg.hora+ '</b>'       + '</div>');
+            
         }
+       
         
     });
     

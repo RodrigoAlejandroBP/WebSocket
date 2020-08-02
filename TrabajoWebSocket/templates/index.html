@@ -42,27 +42,13 @@
       href="{{ url_for('static', filename='base.css') }}"
     />
     
-    <script>     
+    <script>  
+
         $(document).ready(function() {
             $("#Aparecer").hide();
 
             
         });
-/*
-      function desaparecerchat(botoncete)) {
-          
-          var lable = $(" #"+botocente).text().trim();
-
-          if(lable == "Hide") {
-              $(".btn").text("Show");
-          
-          }
-          else {
-              $(".btn").text("Hide");
-          
-          }
-
-      };*/
 </script>
     <!-- Bootstrap CSS -->
   </head>
@@ -157,6 +143,7 @@
         </div>
       </div>
     </div>
+    <h1 id="oculto" style="display:none; visibility: hidden;"></h1>
     <!-- Comienza la parte del chat-->
     <div class="container horizontal-scrollable" id ="Aparecer">
       <div class="row">
@@ -194,6 +181,7 @@
               <span class="glyphicon glyphicon-send"></span>Send
             </button>
             <div style="padding-top: 5px;"></div>
+            <!--
             Mensaje al lobby:
             <div style="padding-top: 5px;"></div>
             <input
@@ -204,8 +192,22 @@
             />
             <div style="padding-top: 5px;"></div>
             <button id="send" class="btn btn-outline-success btn-block">
-              Send
-            </button>
+              Enviar
+            </button> -->
+           
+            <div style="padding-top: 5px;"></div>
+             Terminar conexión con :
+            <input
+              type="text"
+              class="username form-control"
+              id="terminarconversacion1"
+              placeholder="Ingrese Alias"
+            />
+            <div style="padding-top: 5px;"></div>
+             <button id="terminarconversacion" class="btn btn-outline-success btn-block"> 
+             Enviar 
+             </button>
+
           </div>
     
         <!--Mensajes-->
@@ -234,7 +236,7 @@
             <div class ="col-sm" style="padding:20px;" >
              
               <div class="emisores"  style="height:595px; overflow:scroll;overflow-y:scroll;overflow-x:hidden;" >
-                <h4 style="text-align:center">Usuarios que te contactaron o contactaste,presione en uno de ellos para chatear</h4>
+                <h4 style="text-align:center">Usuarios que te contactaron o contactaste,presione en uno de ellos para ver mensajes</h4>
                 <br><br><br>
                 
               </div>
