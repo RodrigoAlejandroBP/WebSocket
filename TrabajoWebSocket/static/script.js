@@ -6,6 +6,7 @@ $(document).ready(function() {
     var a=[]; 
     var c=[];
     var listadeusuarios=[];
+
     
     //inicializar el puerto
     var socket = io.connect('http://127.0.0.1:5000');
@@ -88,7 +89,7 @@ $(document).ready(function() {
                     console.log("todo correcto");
                 }
 
-            })
+            });
 
 
 
@@ -138,15 +139,20 @@ $(document).ready(function() {
         var hora=horadeenvio.getHours()+':'+horadeenvio.getMinutes();
         $( '#Mensajes' ).remove();
         if(listadeusuarios.indexOf(emisor)==-1){
-
+            /*AQUI */
+            console.log("PASEPORACA");
+            
             //creo su propio holder con la clase del alias del emisor y a esa clase despues puedo hacerla desaparecer o aparecer
-            $( 'div.message_holder' ).append( '<div class="'+emisor+ '"  style=""></div>');
-            $( 'div'+'.'+emisor ).append(' <div class="msg_bbl" style="margin-top: 15px; float: left; margin-right: 250px; ">'+'<p class = "parrafodentro" >'+message_to_send+'</p>'+ '<b style=" color: #000;font-size:10px; float: right;">   ' + hora+'</b></div>'+'<br>' );
+            $( 'div.message_holder' ).append( '<div class="'+emisor+recipient+ '"  style=""></div>');
+            $( 'div'+'.'+emisor+recipient ).append(' <div class="msg_bbl" style="margin-top: 15px; float: left; margin-right: 250px; ">'+'<p class = "parrafodentro" >'+message_to_send+'</p>'+ '<b style=" color: #000;font-size:10px; float: right;">   ' + hora+'</b></div>'+'<br>' );
             // $( 'div'+'.'+msg.emisor+' ).append( <div class="msg_bbl" style="margin-top: 15px; float: left; margin-right: 250px; "><p class = "parrafodentro" >'+message_to_send+'</p>'+ '<b style=" color: #000;font-size:10px; float: right;">   ' + hora+'</b></div>'+'<br>' );
+            $( 'div.emisores' ).append( '<button class="btn btn-outline-success btn-block" id="'+emisor+'b" onclick=$("div.'+emisor+recipient+'").toggle();$("div.'+recipient+emisor+'").toggle(); >'+ "Alias :  "+ recipient +'</button>');
             listadeusuarios.push(emisor);
         }
         else{
-            $( 'div'+'.'+emisor ).append(' <div class="msg_bbl"  style="margin-top: 15px; float: left; margin-right: 250px; ">'+'<p class = "parrafodentro" >'+message_to_send+'</p>'+ '<b style=" color: #000;font-size:10px; float: right;">   ' + hora+'</b></div>'+'<br>' );
+            $('#'+emisor+'b').hide();
+            console.log("QPASOOOOOOOOOOOOO");
+            $( 'div'+'.'+emisor+recipient ).append(' <div class="msg_bbl"  style="margin-top: 15px; float: left; margin-right: 250px; ">'+'<p class = "parrafodentro" >'+message_to_send+'</p>'+ '<b style=" color: #000;font-size:10px; float: right;">   ' + hora+'</b></div>'+'<br>' );
         
         }
       
@@ -160,6 +166,7 @@ $(document).ready(function() {
     
     //Mensajes privados
 
+
     
 //Cuando llega
     private_socket.on('new_private_message', function(msg) {
@@ -167,18 +174,22 @@ $(document).ready(function() {
             
             
             $( '#Mensajes' ).remove();
-           
+            console.log("BUENA");
            // $( 'div.message_holder' ).append( '<div class="msg_bbl"  style="margin-top: 15px; float: right; margin-left: 250px;">'+ '<p class = "parrafodentro" >'+ msg.mensaje+ '</p>'+ '<b style="color: #000; font-size:10px; float: left;">'+ msg.hora+ '</b>'   + '</div>');
-            $( 'div.message_holder' ).append( '<div class="'+msg.emisor+ '"  style=""></div>');
-            $( 'div'+'.'+msg.emisor ).append( '<div class="msg_bbl" style="margin-top: 15px; float: right; margin-left: 250px;">'+ '<p class = "parrafodentro" >'+ msg.mensaje+ '</p>'+ '<b style="color: #000; font-size:10px; float: left;">'+ msg.hora+ '</b>'   + '</div>');
+            $( 'div.message_holder' ).append( '<div class="'+msg.emisor+msg.receptor+ '"  style=""></div>');
+            $( 'div'+'.'+msg.emisor+msg.receptor ).append( '<div class="msg_bbl" style="margin-top: 15px; float: right; margin-left: 250px;">'+ '<p class = "parrafodentro" >'+ msg.mensaje+ '</p>'+ '<b style="color: #000; font-size:10px; float: left;">'+ msg.hora+ '</b>'   + '</div>');
             a.push(msg.emisor);
-            $( 'div.emisores' ).append( '<button class="btn btn-outline-success btn-block" id="'+msg.emisor+'" onclick="">'+"Alias :  "+ msg.emisor +'</button>');
+            $( 'div.emisores' ).append( '<button class="btn btn-outline-success btn-block" id="'+msg.emisor+'b" onclick=$("div.'+msg.receptor+msg.emisor+'").toggle();$("div.'+msg.emisor+msg.receptor+'").toggle();>'+ "Alias :  "+ msg.emisor +'</button>');
+            $('#'+msg.receptor+'b').hide();
+
             b = b+1; 
         }
         else{
+            console.log("PUTAOH");
             $( '#Mensajes' ).remove();
+
             //Si es que ya habia hablado contigo sigue agregando los mensajes
-            $( 'div'+'.'+msg.emisor ).append( '<div class="msg_bbl" style="margin-top: 15px; float: right; margin-left: 250px;">'+ '<p class = "parrafodentro" >'+ msg.mensaje+ '</p>'+ '<b style="color: #000; font-size:10px; float: left;">'+ msg.hora+ '</b>'   + '</div>');
+            $( 'div'+'.'+msg.emisor+msg.receptor ).append( '<div class="msg_bbl" style="margin-top: 15px; float: right; margin-left: 250px;">'+ '<p class = "parrafodentro" >'+ msg.mensaje+ '</p>'+ '<b style="color: #000; font-size:10px; float: left;">'+ msg.hora+ '</b>'       + '</div>');
         }
         
     });

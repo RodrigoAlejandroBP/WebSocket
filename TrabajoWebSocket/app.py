@@ -14,6 +14,7 @@ socketio = SocketIO(app,cors_allowed_origins="*")
 
 users = {}
 alias=[]
+estanhablando={}
 usuariosconectados=[]
 
 
@@ -57,7 +58,8 @@ def private_message(payload):
     recipient_session_id = users[payload['username']]
     print(recipient_session_id)
     print(payload)
-    message = {'mensaje':payload['message'],'emisor':payload['emisor'],'hora':payload['hora']}
+    
+    message = {'mensaje':payload['message'],'emisor':payload['emisor'],'hora':payload['hora'],'receptor':payload['username']}
     print(message)
 
 
