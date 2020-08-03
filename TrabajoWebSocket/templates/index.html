@@ -43,8 +43,16 @@
     />
     
     <script>  
-       function cambiochat(emisor,receptor){
-         console.log("seviene")
+       function cambiochat(emisor){
+      
+        
+
+       
+         console.log(emisor);
+
+
+
+         console.log("seviene");
        
          var d = document.querySelector('#lonecesito');
 
@@ -56,8 +64,8 @@
          for( i = 0 , j = f.length; i < j ; i++ ){
 
              if(f[i] !== undefined){
-                if( f[i].className ==emisor.toString()+receptor.toString() ){
-                  console.log("PORFIN");
+                if( f[i].className ==emisor){
+                  //console.log("PORFIN");
                 }
                 else{
                   var hola = f[i].className;
@@ -68,9 +76,7 @@
                   else{
                     console.log("indefinido")
                   }
-                  
-          
-                 
+
                 }
             }
               else{
@@ -79,7 +85,7 @@
 
           };
 
-        $("."+emisor+receptor).show();
+        $("."+emisor).show();
     
     }
         $(document).ready(function() {
@@ -129,7 +135,7 @@
   <div class="container pt-4 pb-4" style="padding-bottom: 6rem !important;">
     {% block content %}{% endblock %}
   </div>
-
+{{users}}
   <body data-spy="scroll">
 
     <!-- Empieza parte login-->
