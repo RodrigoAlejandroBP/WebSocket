@@ -28,7 +28,12 @@ $(document).ready(function() {
         console.log('Conectado!');
     });
     
+        
+
     
+ 
+
+  
     /* Para el lobby
    $('#send').on('click', function() {
        var message = $('#message').val();
@@ -47,7 +52,8 @@ $(document).ready(function() {
 
         $("."+emisor+receptor).show();
         alert("Nuevo mensaje de "+ emisor)
-    }
+    };
+
 
     //Aqui registro el alias
   
@@ -126,6 +132,12 @@ $(document).ready(function() {
         // 
     });
 
+
+
+
+  
+
+
     //Cuando un usuario envia el mensaje al otro
     $('#send_private_message').on('click', function() {
 
@@ -158,7 +170,10 @@ $(document).ready(function() {
                     $( 'div.message_holder' ).append( '<div class="'+recipient+emisor+ '"  style=""></div>');
                     $( 'div'+'.'+recipient+emisor).append(' <div class="msg_bbl" style="margin-top: 15px; float: left; margin-right: 250px; ">'+'<p class = "parrafodentro" >'+message_to_send+'</p>'+ '<b style=" color: #000;font-size:10px; float: right;">   ' + hora+'</b></div>'+'<br>' );
                     // $( 'div'+'.'+msg.emisor+' ).append( <div class="msg_bbl" style="margin-top: 15px; float: left; margin-right: 250px; "><p class = "parrafodentro" >'+message_to_send+'</p>'+ '<b style=" color: #000;font-size:10px; float: right;">   ' + hora+'</b></div>'+'<br>' );
-                    $( 'div.emisores' ).append( '<button class="btn btn-outline-success btn-block" id="'+recipient+'b" onclick=$("div.'+emisor+recipient+'").toggle();$("div.'+recipient+emisor+'").toggle();  >'+ "Alias :  "+ recipient +'</button>');
+              
+                    $( 'div.emisores' ).append( '<button class="btn btn-outline-success btn-block" id="'+recipient+'b" onclick=$("div.'+emisor+recipient+'").toggle();$("div.'+recipient+emisor+'").toggle();'+'cambiochat('+recipient+","+emisor+  ');>'+  recipient +'</button>');
+                  //  $( 'div.emisores' ).append( '<button class="btn btn-outline-success btn-block" id="'+msg.emisor+'b" onclick=$("div.'+msg.receptor+msg.emisor+'").toggle();$("div.'+msg.emisor+msg.receptor+'").toggle();'+'cambiochat("'+msg.emisor+","+msg.receptor+'" );"'+ ">"+ "Alias :  "+ msg.emisor +'</button>');
+               
                     listadeusuarios.push(recipient);
                 }
                 //Si ya hablaron antes solo agrega mensajes 
@@ -184,7 +199,7 @@ $(document).ready(function() {
     });
     
  
-    
+
 
 
 
@@ -211,7 +226,7 @@ $(document).ready(function() {
                 $( 'div.message_holder' ).append( '<div class="'+msg.emisor+msg.receptor+ '"  style=""></div>');
                 $( 'div'+'.'+msg.emisor+msg.receptor ).append( '<div class="msg_bbl" style="margin-top: 15px; float: right; margin-left: 250px;">'+ '<p class = "parrafodentro" >'+ msg.mensaje+ '</p>'+ '<b style="color: #000; font-size:10px; float: left;">'+ msg.hora+ '</b>'   + '</div>');
                 a.push(msg.emisor);
-                $( 'div.emisores' ).append( '<button class="btn btn-outline-success btn-block" id="'+msg.emisor+'b" onclick=$("div.'+msg.receptor+msg.emisor+'").toggle();$("div.'+msg.emisor+msg.receptor+'").toggle(); >'+ "Alias :  "+ msg.emisor +'</button>');
+                $( 'div.emisores' ).append( '<button class="btn btn-outline-success btn-block" id="'+msg.emisor+'b" onclick=$("div.'+msg.receptor+msg.emisor+'").toggle();$("div.'+msg.emisor+msg.receptor+'").toggle();'+'cambiochat('+msg.emisor+","+msg.receptor+  ');>'+  msg.emisor +'</button>');
                
     
                 b = b+1; 

@@ -43,10 +43,63 @@
     />
     
     <script>  
+       function cambiochat(emisor,receptor){
+         console.log("seviene")
+       
+         var d = document.querySelector('#lonecesito');
 
+        
+         console.log(d);
+         var f = d.childNodes;
+         console.log("el de abajo es f");
+         console.log(f);
+         for( i = 0 , j = f.length; i < j ; i++ ){
+
+             if(f[i] !== undefined){
+                if( f[i].className ==emisor.toString()+receptor.toString() ){
+                  console.log("PORFIN");
+                }
+                else{
+                  var hola = f[i].className;
+                  if(hola!==undefined ){
+                    $("div."+hola).hide();
+                    $("."+hola).hide();
+                  }
+                  else{
+                    console.log("indefinido")
+                  }
+                  
+          
+                 
+                }
+            }
+              else{
+                console.log("indefinido");
+             }
+
+          };
+
+        $("."+emisor+receptor).show();
+    
+    }
         $(document).ready(function() {
             $("#Aparecer").hide();
 
+               function cambiochat(emisor,receptor,listadeusuarios1){
+                   console.log("seviene")
+         console.log(listadeusuarios1);
+         console.log(emisor);
+         console.log(receptor); 
+              for (var i = 0; i < listadeusuarios1.length; i++) {
+                  console.log(receptor );
+                  console.log(listadeusuarios1[i]);
+                  $("."+listadeusuarios1[i]+receptor).hide();
+              }
+
+              $("."+emisor+receptor).show();
+    
+    }
+          
             
         });
 </script>
@@ -216,7 +269,7 @@
               <div class="row" style=" width:520px;">
                 <div class ="col-sm">
              
-                  <div class="message_holder" style="height:595px; overflow:scroll;overflow-y:scroll;overflow-x:hidden; ">
+                  <div class="message_holder" id="lonecesito" style="height:595px; overflow:scroll;overflow-y:scroll;overflow-x:hidden; ">
                     <h1 style="color: #ccc; " id='Mensajes'>No hay mensajes todavia</h1>
                   </div>
                   
