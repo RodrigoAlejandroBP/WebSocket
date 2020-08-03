@@ -48,7 +48,7 @@ $(document).ready(function() {
         $("."+emisor+receptor).show();
         alert("Nuevo mensaje de "+ emisor)
     }
-    
+
     //Aqui registro el alias
   
     var contador=0;
@@ -98,7 +98,7 @@ $(document).ready(function() {
     $('#terminarconversacion').on('click', function() {
         var alias = $('#terminarconversacion1').val();
 
-        alert("Se cerrara la conexion y el registro de datos  con el usuario!.");
+        alert("Se cerrara la conexion y el registro de datos  con el usuario "  + alias+ "!");
 
         $( 'div'+'.'+alias+yo ).append( '<div class="msg_bbl" style="margin-top: 15px; float: right; margin-left: 250px; ">'+ '<p class = "parrafodentro" style="color: red;" >Se ha terminado la conexion, no pueden seguir hablando!. </p>' + '</div>');
         $('div.'+alias+yo).fadeOut(15000);
@@ -113,7 +113,7 @@ $(document).ready(function() {
 
         //console.log('#'+msg.yo+'b' );
        // 
-       alert("Se cerrara la conexion y el registro de datos  con el usuario!.");
+       alert("El usuario "+ msg.alias +"  cerro la conexion contigo, se borrara el registro de datos con el usuario!.");
 
        $( 'div'+'.'+msg.yo+msg.alias ).append( '<div class="msg_bbl" style="margin-top: 15px; float: right; margin-left: 250px;">'+ '<p class = "parrafodentro" style="color: red;" >Se ha terminado la conexion, no pueden seguir hablando!. </p>'     + '</div>');
            
